@@ -15,7 +15,7 @@ RUN adduser -u "${USER_UID}" -D -h /app "${USER_NAME}" \
 
 USER app
 WORKDIR /app
-ENV UPTAINER_VERSION="0.1.7"
+ENV UPTAINER_VERSION="0.1.8"
 
 ENV PATH="/app/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
@@ -24,4 +24,4 @@ RUN pip install --break-system-packages --user --no-cache-dir "uptainer==${UPTAI
 
 # Set an empty volume
 VOLUME ["/tmp", "/etc/uptainer", "/app/.ssh/id_rsa"]
-CMD ["/app/.local/bin/uptainer", "--config", "/etc/uptainer/config.yaml"]
+CMD ["/app/.local/bin/uptainer", "--config-file", "/etc/uptainer/config.yaml"]

@@ -45,4 +45,42 @@ CLI Tool
 Helm Chart
 ----------
 
-Work in progress
+0. Adding Helm repository
+
+.. code-block:: bash
+
+    helm repo add asbarbati-helm https://asbarbati.github.io/helm-charts/
+
+1. Download the latest package using
+
+.. code-block:: bash
+
+    helm fetch asbarbati-helm/uptainer
+
+2. De-compress the package
+
+.. code-block:: bash
+
+    tar xfz uptainer-<VERSION>.tgz
+
+3. Create a secret with the SSH private key.
+
+.. code-block:: bash
+
+    kubectl create secret generic uptainer-sshkey --from-file=ssh-privatekey=/path/to/.ssh/id_rsa
+
+4. Adding the reference in the values.yaml file like
+
+.. code-block:: yaml
+
+  - name: sshkey
+    secret:
+      secretName: uptainer-sshkey
+
+5. Edit the values for your scenarios.
+
+6. Install it
+
+.. code-block:: bash
+
+    helm install uptainer asbarbati-helm/uptainer -f values.yaml

@@ -7,6 +7,7 @@ from pathlib import Path
 from typing import Annotated
 from uptainer.loader import Loader
 from structlog.contextvars import merge_contextvars
+from os import getenv
 
 app = typer.Typer()
 
@@ -28,6 +29,9 @@ def main(  # noqa D417
         LOGLEVEL = logging.DEBUG
     else:
         LOGLEVEL = logging.INFO
+
+    if getenv("UPTAINER_DEBUG", "0") == "1":
+        LOGLEVEL = logging.DEBUG
 
     structlog.configure(
         processors=[
