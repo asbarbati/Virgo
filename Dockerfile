@@ -11,11 +11,11 @@ ENV USER_GID="1000"
 ENV USER_NAME="app"
 
 RUN adduser -u "${USER_UID}" -D -h /app "${USER_NAME}" \
-    && apk --no-cache upgrade && apk add --no-cache git=2.47.1-r0 py3-pip=24.3.1-r0 openssh-client-default=9.9_p1-r2
+    && apk --no-cache upgrade && apk add --no-cache git=2.47.2-r0 py3-pip=24.3.1-r0 openssh-client-default=9.9_p1-r2
 
 USER app
 WORKDIR /app
-ENV UPTAINER_VERSION="0.1.8"
+ENV UPTAINER_VERSION="0.1.9"
 
 ENV PATH="/app/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
