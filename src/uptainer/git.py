@@ -80,17 +80,7 @@ class Git:
             try:
                 self.repo = git.Repo.clone_from(url=self.remote_url, to_path=self.work_directory, env=env)
                 self.log.info(f"Pull success. Switching to the branch '{self.branch}'")
-                branch_matched = False
-                for branch in self.repo.branches:
-                    if branch.name == self.branch:
-                        branch_matched = True
-                        break
-
-                if branch_matched:
-                    self.repo.git.checkout(self.branch)
-                else:
-                    self.log.error(f"Branch not found. Founds: {self.repo.branches}")
-                    out["error"] = True
+                self.repo.git.checkout(self.branch)
             # TODO: Adding more catch strategy
             except git.exc.GitCommandError as error:
                 self.log.error(f"Error during pulling the repo, error: '{error}'")

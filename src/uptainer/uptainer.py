@@ -74,21 +74,14 @@ class UpTainer:
         out = TyperDetectedVersion(error=False, data=None)
         self.log.debug(f"Regex to match: {self.config.version_match}")
         for tagiter in tags:
-            self.log.debug(f"aaa - {tagiter}")
             if matched:
                 break
-            if isinstance(tagiter["name"], list):
-                for tag in tagiter["name"]:
-                    version = re.match(self.config.version_match, tag)
-                    if version:
-                        matched = True
-                        out["data"] = version.string
-                        break
-            else:
-                version = re.match(self.config.version_match, tagiter["name"])
+            for tag in tagiter["name"]:
+                version = re.match(self.config.version_match, tag)
                 if version:
                     matched = True
                     out["data"] = version.string
+                    break
         if not matched:
             out["error"] = True
             self.log.error("Error during detecting version.")

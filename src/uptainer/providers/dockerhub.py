@@ -62,7 +62,11 @@ class DockerHub(BaseProvider):
                         break
             for item in tmpdb:
                 itemdate = datetime.strptime(item["last_updated"].split(".")[0], "%Y-%m-%dT%H:%M:%S")
-                out["data"].append({"last_update": itemdate, "name": item["name"]})
+                if isinstance(item["name"], str):
+                    tags = [item["name"]]
+                else:
+                    tags = item["name"]
+                out["data"].append({"last_update": itemdate, "name": tags})
         else:
             self.log.error(f"Error during getting image, returns: {req.json()}")
             out["error"] = True
