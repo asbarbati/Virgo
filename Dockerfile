@@ -15,7 +15,7 @@ RUN adduser -u "${USER_UID}" -D -h /app "${USER_NAME}" \
 
 USER app
 WORKDIR /app
-ENV UPTAINER_VERSION="0.2.2"
+ENV UPTAINER_VERSION="0.2.3"
 
 ENV PATH="/app/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
