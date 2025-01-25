@@ -51,6 +51,8 @@ class Git:
         commit_msg = f"chore: Update version to {newversion}"
         try:
             repo = git.Repo(self.work_directory)
+            # Inject ssh key
+            repo.git.custom_environment(GIT_SSH_COMMAND=f"ssh -i {self.private_key}")
             if repo.is_dirty():
                 self.log.info(f"Pushing the new version with the commit msg: '{commit_msg}'")
                 repo.index.add([fpath])
@@ -75,10 +77,10 @@ class Git:
         """
         out = TyperGenericReturn(error=False)
         if self.remote_url.startswith("git@") or self.remote_url.startswith("ssh://"):
-            env = {"GIT_SSH_COMMAND": f"ssh -i {self.private_key}"}
+            git_env = {"GIT_SSH_COMMAND": f"ssh -i {self.private_key}"}
             self.log.info(f"Pulling '{self.remote_url}' to '{self.work_directory}' using the key '{self.private_key}'")
             try:
-                self.repo = git.Repo.clone_from(url=self.remote_url, to_path=self.work_directory, env=env)
+                self.repo = git.Repo.clone_from(url=self.remote_url, to_path=self.work_directory, env=git_env)
                 self.log.info(f"Pull success. Switching to the branch '{self.branch}'")
                 self.repo.git.checkout(self.branch)
             # TODO: Adding more catch strategy
