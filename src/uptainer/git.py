@@ -52,14 +52,14 @@ class Git:
         try:
             repo = git.Repo(self.work_directory)
             # Inject ssh key
-            repo.git.custom_environment(GIT_SSH_COMMAND=f"ssh -i {self.private_key}")
-            if repo.is_dirty():
-                self.log.info(f"Pushing the new version with the commit msg: '{commit_msg}'")
-                repo.index.add([fpath])
-                repo.index.commit(commit_msg)
-                repo.remotes.origin.push()
-            else:
-                self.log.info("No changes to push.")
+            with repo.git.custom_environment(GIT_SSH_COMMAND=f"ssh -i {self.private_key}"):
+                if repo.is_dirty():
+                    self.log.info(f"Pushing the new version with the commit msg: '{commit_msg}'")
+                    repo.index.add([fpath])
+                    repo.index.commit(commit_msg)
+                    repo.remotes.origin.push()
+                else:
+                    self.log.info("No changes to push.")
         # TODO: Adding more catch strategy
         except Exception as error:
             self.log.error(f"Error: {error}")
